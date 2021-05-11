@@ -8,7 +8,7 @@
   $(document).ready(function() {
     fetchBitcoinPriceAndInit();
   });
-  
+
   async function fetchBitcoinPriceAndInit() {
     $.ajax({
       type: "GET",
@@ -49,12 +49,17 @@
     rows.each(function() {
       let column = $(this).find('.e-table-' + nbtable + '_column_' + ((6*nbtable)-1));
       column.find('.converted-value').remove();
+
       let amount = currency == "BTC" ? column.find('.cell').html() : Math.round((column.find('.cell').html() * bitcoinprice[currency]['last']) * 10) / 10;
       let convertedCell = '<div class="cell converted-value">' + amount + '</div>';
       column.append(convertedCell);
+
       column.find('.cell').first().hide().bind('DOMSubtreeModified', function() {
+        let amount = currency == "BTC" ? column.find('.cell').html() : Math.round((column.find('.cell').html() * bitcoinprice[currency]['last']) * 10) / 10;
+        let convertedCell = '<div class="cell converted-value">' + amount + '</div>';
         column.find('.converted-value').html(convertedCell);
       });
+
     });
   }
 })();
