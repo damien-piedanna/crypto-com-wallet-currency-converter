@@ -14,7 +14,6 @@
       type: "GET",
       url: "https://blockchain.info/ticker",
       success: function (data) {
-        console.log(data);
         bitcoinprice = data;
         init();
       }
@@ -37,7 +36,7 @@
 
   function updateTable(rows) {
     nbtable++;
-    let select = $('<select id="currency-selector"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="BTC">BTC</option></select>').on('change', function() {
+    let select = $('<select id="currency-selector"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="CNY">CNY</option><option value="JPY">JPY</option><option value="BTC">BTC</option></select>').on('change', function() {
       currency = this.value;
       updateRows($('table.e-table__body > tbody > tr'));
     });
@@ -50,12 +49,12 @@
       let column = $(this).find('.e-table-' + nbtable + '_column_' + ((6*nbtable)-1));
       column.find('.converted-value').remove();
 
-      let amount = currency == "BTC" ? column.find('.cell').html() : Math.round((column.find('.cell').html() * bitcoinprice[currency]['last']) * 10) / 10;
+      let amount = currency == "BTC" ? column.find('.cell').html() : Math.round((column.find('.cell').html() * bitcoinprice[currency]['last']) * 100) / 100;
       let convertedCell = '<div class="cell converted-value">' + amount + '</div>';
       column.append(convertedCell);
 
       column.find('.cell').first().hide().bind('DOMSubtreeModified', function() {
-        let amount = currency == "BTC" ? column.find('.cell').html() : Math.round((column.find('.cell').html() * bitcoinprice[currency]['last']) * 10) / 10;
+        let amount = currency == "BTC" ? column.find('.cell').html() : Math.round((column.find('.cell').html() * bitcoinprice[currency]['last']) * 100) / 100;
         let convertedCell = '<div class="cell converted-value">' + amount + '</div>';
         column.find('.converted-value').html(convertedCell);
       });
