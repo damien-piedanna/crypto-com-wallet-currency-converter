@@ -1,13 +1,13 @@
 {
    "name": "Crypto.com - Wallet currency converter",
-   "description": "Unnoficial simple extension used to convert BTC in other currency value in crypto.com wallet",
-   "version": "1.0",
+   "description": "Unnoficial simple extension used to convert BTC in other currency value in crypto.com wallet.",
+   "version": "1.1",
    "icons": {
-     "128": "data/icon128.png"
+     "128": "data/img/icon128.png"
    },
    "content_scripts":[{
      "matches" : ["https://crypto.com/exchange/wallets/spot/balances"],
-     "js" : ["data/jquery.js","data/convert.js"]
+     "js" : ["data/lib/jquery.js","data/js/convert.js"]
    }],
    "manifest_version": 2
  }
