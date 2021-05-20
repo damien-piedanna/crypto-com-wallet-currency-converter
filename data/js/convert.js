@@ -1,12 +1,15 @@
 (function() {
   "use strict";
   let bitcoinprice;
-  let currency = "USD";
+  let currency;
   let tableLoaded = false;
   let nbtable = 0;
 
   $(document).ready(function() {
-    fetchBitcoinPriceAndInit();
+    chrome.storage.sync.get(['currency'], function(result) {
+      currency = typeof(result.currency) != 'undefined' ? result.currency : "USD";
+      fetchBitcoinPriceAndInit();
+    });
   });
 
   async function fetchBitcoinPriceAndInit() {
@@ -36,10 +39,11 @@
 
   function updateTable(rows) {
     nbtable++;
-    let select = $('<select id="currency-selector"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="CNY">CNY</option><option value="JPY">JPY</option><option value="BTC">BTC</option></select>').on('change', function() {
+    let select = $('<select id="currency-selector"><option value="USD">USD</option><option value="EUR">EUR</option><option value="GBP">GBP</option><option value="CNY">CNY</option><option value="JPY">JPY</option><option value="KRW">KRW</option><option value="INR">INR</option><option value="CAD">CAD</option><option value="BTC">BTC</option></select>').on('change', function() {
       currency = this.value;
+      chrome.storage.sync.set({currency: currency});
       updateRows($('table.e-table__body > tbody > tr'));
-    });
+    }).val(currency);
     $('th.e-table-' + nbtable + '_column_' + ((6*nbtable)-1) + ' > .cell > .sortable').html('‏‏‎ <span class="caret-wrapper"><i class="sort-caret ascending "></i><i class="sort-caret descending "></i></span>').before(select);
     updateRows(rows);
   }
